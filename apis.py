@@ -19,7 +19,7 @@ class FoodApi(APIView):
         return Response({"data": serializer.errors}, status=400)
 
 class StoreApi(APIView):
-    def get():
+    def get(self, request):
         stores = Store.objects.all()
         serializer = StoreSerializer(stores, many=True)
         return Response({"stores": serializer.data})
