@@ -46,7 +46,7 @@ class DrinkApi(APIView):
 
 class OrderApi(APIView):
     def get(self, request):
-        orders = OrderApi.objects.all()
+        orders = Order.objects.all()
         serializer = OrderSerializer(orders, many=True)
         return Response({"orders": serializer.data})
 
