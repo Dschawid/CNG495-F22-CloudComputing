@@ -30,3 +30,29 @@ class StoreApi(APIView):
             serializer.save()
             return Response(serializer.data, status=200)
         return Response({"data": serializer.errors}, status=400)
+
+class DrinkApi(APIView):
+    def get(self, request):
+        drinks = Drink.objects.all()
+        serializer = DrinkSerializer(drinks, many=True)
+        return Response({"drinks": serializer.data})
+
+    def post(self, request):
+        serializer = DrinkSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        return Response({"data": serializer.errors}, status=400)
+
+class OrderApi(APIView):
+    def get(self, request):
+        orders = OrderApi.objects.all()
+        serializer = OrderSerializer(orders, many=True)
+        return Response({"orders": serializer.data})
+
+    def post(self, request):
+        serializer = OrderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        return Response({"data": serializer.errors}, status=400)
