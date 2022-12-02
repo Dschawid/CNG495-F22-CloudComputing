@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from food.models import *
-from serializers import FoodSerializer
+from serializers import *
 
 
 class FoodApi(APIView):
@@ -13,6 +13,19 @@ class FoodApi(APIView):
 
     def post(self, request):
         serializer = FoodSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        return Response({"data": serializer.errors}, status=400)
+
+class StoreApi(APIView):
+    def get():
+        stores = Store.objects.all()
+        serializer = StoreSerializer(stores, many=True)
+        return Response({"stores": serializer.data})
+
+    def post(self, request):
+        serializer = StoreSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
