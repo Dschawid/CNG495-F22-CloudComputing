@@ -10,3 +10,13 @@ class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
         fields = ['name', 'location', 'owner']
+
+class DrinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Drink
+        fields = ['name', 'price', "volume", 'is_available', "store"]
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['name','owner', 'price', "food", 'drink', "estimated_duration", "created_at", "status", "notes", "store"]
