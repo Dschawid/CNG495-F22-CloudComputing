@@ -73,7 +73,6 @@ class Order(models.Model):
 
     owner = models.ForeignKey(User, verbose_name="owner", on_delete=models.CASCADE)
     store = models.ForeignKey(Store, verbose_name="store", on_delete=models.CASCADE)
-    name = models.CharField(verbose_name="name", max_length=30, blank=True)
     food = models.ManyToManyField(Food, verbose_name="food", related_name="order_foods")
     drink = models.ManyToManyField(Drink, verbose_name="drink", related_name="order_drinks")
     price = models.DecimalField("price", max_digits=10, decimal_places=2)
@@ -83,4 +82,4 @@ class Order(models.Model):
     notes = models.CharField(verbose_name="notes", max_length=500, null=True)
 
     def __str__(self):
-        return self.name
+        return self.pk

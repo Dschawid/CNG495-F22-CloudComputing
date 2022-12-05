@@ -19,4 +19,4 @@ class DrinkSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['name','owner', 'price', "food", 'drink', "estimated_duration", "created_at", "status", "notes", "store"]
+        fields = ['owner', 'price', "food", 'drink', "estimated_duration", "created_at", "status", "notes", "store"]

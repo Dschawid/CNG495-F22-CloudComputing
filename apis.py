@@ -18,6 +18,7 @@ class FoodApi(APIView):
             return Response(serializer.data, status=200)
         return Response({"data": serializer.errors}, status=400)
 
+
 class StoreApi(APIView):
     def get(self, request):
         stores = Store.objects.all()
@@ -30,6 +31,7 @@ class StoreApi(APIView):
             serializer.save()
             return Response(serializer.data, status=200)
         return Response({"data": serializer.errors}, status=400)
+
 
 class DrinkApi(APIView):
     def get(self, request):
@@ -44,11 +46,17 @@ class DrinkApi(APIView):
             return Response(serializer.data, status=200)
         return Response({"data": serializer.errors}, status=400)
 
+
 class OrderApi(APIView):
     def get(self, request):
-        orders = Order.objects.all()
+        store_id = request.GET.get("store_id")
+        if store_id:
+            orders = Order.objects.filter(store=store_id)
+        else:
+            orders = Order.objects.all()
         serializer = OrderSerializer(orders, many=True)
         return Response({"orders": serializer.data})
+    
 
     def post(self, request):
         serializer = OrderSerializer(data=request.data)
@@ -56,3 +64,17 @@ class OrderApi(APIView):
             serializer.save()
             return Response(serializer.data, status=200)
         return Response({"data": serializer.errors}, status=400)
+
+
+
+class OrderDetailApi(APIView):
+    def patch(self, request, order_id):
+        try:
+            order = Order.objects.get(pk=order_id)
+            serializer = OrderSerializer(order, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"order": serializer.data})
+            return Response({"error": serializer.errors})
+        except Order.DoesNotExist:
+            return Response({"error": "Order does not exist"})

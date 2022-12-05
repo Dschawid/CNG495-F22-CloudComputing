@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from apis import *
 
@@ -7,8 +7,9 @@ from apis import *
 app_name = "Canteen"
 
 urlpatterns = [
-    path('foods/', FoodApi.as_view()),
-    path('drinks/', DrinkApi.as_view()),
-    path('stores/', StoreApi.as_view()),
-    path('orders/', OrderApi.as_view()),
+    re_path(r"foods/$", FoodApi.as_view()),
+    re_path(r"drinks/$", DrinkApi.as_view()),
+    re_path(r"stores/$", StoreApi.as_view()),
+    re_path(r"orders/$", OrderApi.as_view()),
+    re_path(r"orders/(?P<order_id>\d+)/$", OrderDetailApi.as_view()),
 ]
